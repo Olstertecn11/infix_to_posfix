@@ -20,31 +20,49 @@ fn priority(ch: char)->u32{
 
 
 fn toPosfix(expression: String, ops: &String)-> String{
-    let output: String = String::from("");
+    let mut output: String = String::from("");
     let mut stack: LinkedList<char> = LinkedList::new();
-    expression.chars().for_each(|char| {
-        if !is_op(char, &ops){
-            output.push(char);
+    expression.chars().for_each(|ch| {
+        if !is_op(ch, &ops){
+            output.push(ch);
         }
-        else if char == '('{
-            stack.push_back(char);
+        else if ch == '('{
+            stack.push_back(ch);
         }
-        else if char == ')'{
-
+        else if ch == ')'{
+            while stack.back().unwrap() != &'(' {
+                output.push(*stack.back().unwrap());
+                stack.pop_back();
+            }
+        }
+        else{
+            while !stack.is_empty() && priority(ch) <= priority(*stack.back().unwrap()){
+                output.push(*stack.back().unwrap());
+                stack.pop_back();
+            }
+            stack.push_back(ch);
         }
     });
 
-
+    while !stack.is_empty(){
+        output.push(*stack.back().unwrap());
+        stack.pop_back();
+    }
+    return output;
 }
 
 
 fn main() {
     let operators: String = String::from("+-*/^");
     let input = utils::readline("Enter a expression: ".to_string());
-    for i in input.chars(){
-        if is_op(i, &operators) {
-            println!("is op: {}", i);
-        }
-    }
+    let result: String = toPosfix(input, &operators);
+    utils::clear();
+    println!("Result: {}", result);
+    utils::pause();
+    // for i in input.chars(){
+    //     if is_op(i, &operators) {
+    //         println!("is op: {}", i);
+    //     }
+    // }
 
 }
