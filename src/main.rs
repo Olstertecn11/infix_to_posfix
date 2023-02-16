@@ -19,7 +19,7 @@ fn priority(ch: char)->u32{
 }
 
 
-fn toPosfix(expression: String, ops: &String)-> String{
+fn to_posfix(expression: String, ops: &String)-> String{
     let mut output: String = String::from("");
     let mut stack: LinkedList<char> = LinkedList::new();
     expression.chars().for_each(|ch| {
@@ -55,14 +55,9 @@ fn toPosfix(expression: String, ops: &String)-> String{
 fn main() {
     let operators: String = String::from("+-*/^");
     let input = utils::readline("Enter a expression: ".to_string());
-    let result: String = toPosfix(input, &operators);
+    let result: String = to_posfix(input, &operators);
     utils::clear();
     println!("Result: {}", result);
     utils::pause();
-    // for i in input.chars(){
-    //     if is_op(i, &operators) {
-    //         println!("is op: {}", i);
-    //     }
-    // }
 
 }
