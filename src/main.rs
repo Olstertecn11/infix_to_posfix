@@ -1,34 +1,5 @@
 mod utils;
-
-struct Stack<T> {
-  stack: Vec<T>,
-}
-
-impl<T> Stack<T> {
-  fn new() -> Self {
-    Stack { stack: Vec::new() }
-  }
-
-  fn length(&self) -> usize {
-    self.stack.len()
-  }
-
-  fn pop(&mut self) -> Option<T> {
-    self.stack.pop()
-  }
-
-  fn push(&mut self, item: T) {
-    self.stack.push(item)
-  }
-
-  fn is_empty(&self) -> bool {
-    self.stack.is_empty()
-  }
-
-  fn peek(&self) -> Option<&T> {
-    self.stack.last()
-  }
-}
+use std::collections::LinkedList;
 
 fn is_op(ch: char, ops: &String)->bool{
     ops.find(ch) != None
@@ -50,13 +21,13 @@ fn priority(ch: char)->u32{
 
 fn toPosfix(expression: String, ops: &String)-> String{
     let output: String = String::from("");
-    let mut stack: Stack<char> = Stack::new();
+    let mut stack: LinkedList<char> = LinkedList::new();
     expression.chars().for_each(|char| {
         if !is_op(char, &ops){
             output.push(char);
         }
         else if char == '('{
-            stack.push(char);
+            stack.push_back(char);
         }
         else if char == ')'{
 
